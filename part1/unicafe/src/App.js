@@ -4,17 +4,31 @@ const Button = ({ onClick, text }) => {
 	return <button onClick={onClick}>{text}</button>;
 };
 
-const Average = ({ good, neutral, bad }) => {
-	const total = good + neutral + bad;
-	let scores = good * 1 - bad * 1;
-
-	return <p>average {scores / total || "-"}</p>;
+const Average = ({ averageScore }) => {
+	return <p>average {averageScore || "-"}</p>;
 };
 
-const Positive = ({ good, neutral, bad }) => {
-	const total = good + neutral + bad;
+const Positive = ({ positivePercentage }) => {
+	return <p>positive {positivePercentage || "-"} %</p>;
+};
 
-	return <p>positive {(good / total) * 100 || "-"} %</p>;
+const Statistics = ({ good, neutral, bad }) => {
+	const totalVotes = good + neutral + bad;
+	const totalScore = good * 1 - bad * 1;
+	const averageScore = totalScore / totalVotes;
+	const positivePercentage = (good / totalVotes) * 100;
+
+	return (
+		<section>
+			<h1>Statistics</h1>
+			<p>good {good}</p>
+			<p>neutral {neutral}</p>
+			<p>bad {bad}</p>
+			<p>all {good + neutral + bad}</p>
+			<Average averageScore={averageScore} />
+			<Positive positivePercentage={positivePercentage} />
+		</section>
+	);
 };
 
 const App = () => {
@@ -42,15 +56,7 @@ const App = () => {
 				<Button onClick={neutralClickHandler} text="neutral" />
 				<Button onClick={badClickHandler} text="bad" />
 			</section>
-			<section>
-				<h1>Statistics</h1>
-				<p>good {good}</p>
-				<p>neutral {neutral}</p>
-				<p>bad {bad}</p>
-				<p>all {good + neutral + bad}</p>
-				<Average good={good} neutral={neutral} bad={bad} />
-				<Positive good={good} neutral={neutral} bad={bad} />
-			</section>
+			<Statistics good={good} neutral={neutral} bad={bad} />
 		</div>
 	);
 };
