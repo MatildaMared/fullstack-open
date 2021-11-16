@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const App = () => {
 	const anecdotes = [
@@ -11,35 +11,44 @@ const App = () => {
 		"Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients",
 	];
 
-	const [votes, setVotes] = useState({
-		0: 0,
-		1: 0,
-		2: 0,
-		3: 0,
-		4: 0,
-		5: 0,
-		6: 0,
-	});
+	const [votes, setVotes] = useState([0, 0, 0, 0, 0, 0, 0]);
+
+	const [mostVotesIndex, setMostVotesIndex] = useState(null);
 
 	const [selected, setSelected] = useState(0);
+
+	useEffect(() => {
+		setMostVotesIndex(votes.indexOf(Math.max(...votes)));
+	}, [votes, mostVotesIndex]);
 
 	const clickHandler = () => {
 		setSelected(Math.floor(Math.random() * anecdotes.length));
 	};
 
 	const onVoteHandler = () => {
-		setVotes({
-			...votes,
-			[selected]: votes[selected] + 1,
-		});
+		const copy = [...votes];
+		copy[selected]++;
+		setVotes(copy);
 	};
 
 	return (
 		<div>
-      <p>{anecdotes[selected]}</p>
-      <p> has {votes[selected]} votes</p>
-			<button onClick={onVoteHandler}>vote</button>
-			<button onClick={clickHandler}>Next Anecdote</button>
+			<section>
+				<h1>Anecdote of the day</h1>
+				<p>{anecdotes[selected]}</p>
+				<p> has {votes[selected]} votes</p>
+				<button onClick={onVoteHandler}>vote</button>
+				<button onClick={clickHandler}>Next Anecdote</button>
+			</section>
+			<section>
+				{Math.max(...votes) !== 0 && (
+					<>
+						<h1>Anecdote with most votes</h1>
+						<p>{anecdotes[mostVotesIndex]}</p>
+						<p>has {votes[mostVotesIndex]} votes</p>
+					</>
+				)}
+			</section>
 		</div>
 	);
 };
