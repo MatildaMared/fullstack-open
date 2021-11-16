@@ -5,10 +5,13 @@ const Button = ({ onClick, text }) => {
 };
 
 const StatisticsLine = ({ text, value }) => {
-  return (
-    <p>{text} {value}</p>
-  )
-}
+	return (
+		<tr>
+			<td>{text}</td>
+			<td>{value}</td>
+		</tr>
+	);
+};
 
 const Statistics = ({ good, neutral, bad }) => {
 	const totalVotes = good + neutral + bad;
@@ -17,22 +20,24 @@ const Statistics = ({ good, neutral, bad }) => {
 	const positivePercentage = (good / totalVotes) * 100;
 
 	if (totalVotes === 0) {
-    return (
-      <section>
-        <h1>Statistics</h1>
-        <p>No feedback given</p>
-      </section>
-    )
+		return (
+			<section>
+				<h1>Statistics</h1>
+				<p>No feedback given</p>
+			</section>
+		);
 	}
 
 	return (
 		<section>
-      <h1>Statistics</h1>
-      <StatisticsLine text="good" value={good} />
-      <StatisticsLine text="neutral" value={neutral} />
-      <StatisticsLine text="bad" value={bad} />
-      <StatisticsLine text="average" value={averageScore} />
-      <StatisticsLine text="positive" value={`${positivePercentage} %`} />
+			<h1>Statistics</h1>
+			<table>
+				<StatisticsLine text="good" value={good} />
+				<StatisticsLine text="neutral" value={neutral} />
+				<StatisticsLine text="bad" value={bad} />
+				<StatisticsLine text="average" value={averageScore} />
+				<StatisticsLine text="positive" value={`${positivePercentage} %`} />
+			</table>
 		</section>
 	);
 };
