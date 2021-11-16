@@ -32,11 +32,13 @@ const Statistics = ({ good, neutral, bad }) => {
 		<section>
 			<h1>Statistics</h1>
 			<table>
-				<StatisticsLine text="good" value={good} />
-				<StatisticsLine text="neutral" value={neutral} />
-				<StatisticsLine text="bad" value={bad} />
-				<StatisticsLine text="average" value={averageScore} />
-				<StatisticsLine text="positive" value={`${positivePercentage} %`} />
+				<tbody>
+					<StatisticsLine text="good" value={good} />
+					<StatisticsLine text="neutral" value={neutral} />
+					<StatisticsLine text="bad" value={bad} />
+					<StatisticsLine text="average" value={averageScore} />
+					<StatisticsLine text="positive" value={`${positivePercentage} %`} />
+				</tbody>
 			</table>
 		</section>
 	);
