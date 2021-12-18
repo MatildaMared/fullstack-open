@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import personsService from "./../services/persons";
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({
+	persons,
+	setPersons,
+	setNotificationMessage,
+	setIsSuccessMessage,
+}) => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
 
@@ -29,11 +34,27 @@ const PersonForm = ({ persons, setPersons }) => {
 								person.id === isCopy.id ? returnedPerson : person
 							)
 						);
+					})
+					.catch((error) => {
+						setNotificationMessage(
+							`Person '${newPerson.name}' has already been removed from server`
+						);
+						setPersons(persons.filter((person) => person.id !== isCopy.id));
+						setIsSuccessMessage(false);
+						setTimeout(() => {
+							setNotificationMessage(null);
+							setIsSuccessMessage(true);
+						}, 5000);
 					});
 			}
 		} else {
 			personsService.createPerson(newPerson).then((returnedPerson) => {
 				setPersons(persons.concat(returnedPerson));
+				setNotificationMessage(`Added ${returnedPerson.name}`);
+				setIsSuccessMessage(true);
+				setTimeout(() => {
+					setNotificationMessage(null);
+				}, 5000);
 			});
 		}
 		setNewName("");
