@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import personsService from "./../services/persons";
 
 const PersonForm = ({ persons, setPersons }) => {
 	const [newName, setNewName] = useState("");
@@ -6,23 +7,39 @@ const PersonForm = ({ persons, setPersons }) => {
 
 	const addPersonHandler = (event) => {
 		event.preventDefault();
+		const newPerson = {
+			name: newName,
+			number: newNumber,
+		};
 		const isCopy = persons.find(
 			(person) =>
 				person.name.toLowerCase().trim() === newName.toLowerCase().trim()
 		);
 		if (isCopy) {
-			alert(`${newName} is already added to phonebook`);
+			if (
+				window.confirm(
+					`${newName} is already added to phonebook, replace old number with a new one?`
+				)
+			) {
+				personsService
+					.updatePerson(isCopy.id, newPerson)
+					.then((returnedPerson) => {
+						setPersons(
+							persons.map((person) =>
+								person.id === isCopy.id ? returnedPerson : person
+							)
+						);
+					});
+			}
 		} else {
-			const newPerson = {
-				name: newName,
-				number: newNumber,
-			};
-			setPersons([newPerson, ...persons]);
+			personsService.createPerson(newPerson).then((returnedPerson) => {
+				setPersons(persons.concat(returnedPerson));
+			});
 		}
 		setNewName("");
 		setNewNumber("");
-  };
-  
+	};
+
 	return (
 		<>
 			<h2>Add new</h2>

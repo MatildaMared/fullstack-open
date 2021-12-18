@@ -1,9 +1,16 @@
 import React from "react";
 
-const Person = ({ name, number }) => {
+const Person = ({ person, onDeleteHandler }) => {
 	return (
 		<p>
-			{name} {number}
+			{person.name} {person.number}
+			<button
+				onClick={() => {
+					onDeleteHandler(person);
+				}}
+			>
+				Delete
+			</button>
 		</p>
 	);
 };

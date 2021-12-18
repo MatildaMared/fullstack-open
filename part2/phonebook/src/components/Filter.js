@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
-const Filter = ({ persons, setFilteredPersons }) => {
-	const [filterString, setFilterString] = useState("");
+const Filter = ({ filterString, setFilterString, persons, setFilteredPersons }) => {
 
 	useEffect(() => {
 		if (filterString.length >= 1) {
