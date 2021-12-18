@@ -15,3 +15,7 @@ A full stack development course by The University of Helsinki
 ---
 
 ## [Part 1](https://github.com/MatildaMared/fullstack-open/tree/main/part1)
+
+---
+
+## [Part 2](https://github.com/MatildaMared/fullstack-open/tree/main/part2)
